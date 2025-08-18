@@ -4,13 +4,10 @@ import blocks as bk
 pygame.init()
 pygame.mixer.init()
 BG = pygame.mixer.Sound(file="bg.mp3")
-
 FG = pygame.mixer.Sound(file="fg.mp3")
-FG.set_volume(0.8)
 FG2 = pygame.mixer.Sound(file="fg2.mp3")
-FG2.set_volume(0.4)
-SCREEN_WIDTH = 1980//2
-SCREEN_HEIGHT = 1980//2
+SCREEN_WIDTH = 1920
+SCREEN_HEIGHT = 1025
 RUNNING = True
 RESTART = False
 CLOCK = pygame.time.Clock()
@@ -26,9 +23,8 @@ DOWN_HELD = False
 HORIZONTAL_MOVE_DELAY = 120
 PAUSED = False
 GHOST = True
-last_horizontal_move_time = 0
-
 DEBUG_MODE = False
+last_horizontal_move_time = 0
 
 white = (255, 255, 255)
 green = (0, 255, 0)

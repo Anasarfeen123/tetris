@@ -89,14 +89,11 @@ class Grid():
 
         self.score += 10*len(full_rows)
         
-        # ✅ STEP: Delete the full rows
         for y in full_rows:
             for x in range(self.columns):
                 if (x, y) in self.locked_cells:
                     del self.locked_cells[(x, y)]
         
-
-        # ✅ STEP: Rebuild the grid by shifting everything down
         new_locked_cells = {}
         for y in range(self.rows - 1, -1, -1):
             if y not in full_rows:
@@ -117,3 +114,30 @@ class Grid():
             x, y = self.to_pixel(i)
             # The 'width=2' parameter tells pygame to draw only the border of the rectangle
             pygame.draw.rect(self.screen, color, (x, y, self.BLOCK, self.BLOCK), width=2, border_radius=7) #type: ignore
+            
+    def count_holes(self):
+        holes = 0
+        for x in range(self.columns):
+            block_seen = False
+            for y in range(self.rows):
+                if (x, y) in self.locked_cells:
+                    block_seen = True
+                elif block_seen:
+                    holes += 1
+        return holes
+
+    def count_pillar(self):
+        pillars = 0
+        for x in range(self.columns):
+            column_height = None
+            # Find height of column
+            for y in range(self.rows):
+                if (x, y) in self.locked_cells:
+                    column_height = y
+                    break
+            if column_height is not None:
+                left_empty = (x == 0 or all((x-1, yy) not in self.locked_cells for yy in range(column_height, self.rows)))
+                right_empty = (x == self.columns-1 or all((x+1, yy) not in self.locked_cells for yy in range(column_height, self.rows)))
+                if left_empty and right_empty:
+                    pillars += 1
+        return pillars
